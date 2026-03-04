@@ -1,0 +1,8 @@
+# Qt Creator files
+*.user
+*.pro.user*
+*.pro.user.*
+
+# Build directories
+build/
+
