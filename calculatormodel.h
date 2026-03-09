@@ -23,16 +23,14 @@ public:
         std::string result;
     };
 
-    Display ProcessInput(const std::string& input);
-
-private:
-
     Display ProcessUnknownOperator() const;
     Display ProcessBOperator(const std::string& input);
     Display ProcessUOperator(const std::string& input);
     Display ProcessEquality(const std::string& input);
     Display ProcessNumberOrDot(const std::string& input);
     Display ProcessAC(const std::string& input);
+
+private:
 
     void ProcessPercent();
     void ProcessSignChange();

@@ -260,25 +260,6 @@ CalculatorModel::Display CalculatorModel::ProcessBOperator(const std::string &in
 
 }
 
-CalculatorModel::Display CalculatorModel::ProcessInput(const std::string &input) {
-    if(input == "+/-" || input == "%") {
-        return ProcessUOperator(input);
-    }
-    if(input.find_first_of("+-/*") != std::string::npos) {
-        return ProcessBOperator(input);
-    }
-    if(input == "=") {
-        return ProcessEquality(input);
-    }
-    if(input == "AC") {
-        return ProcessAC(input);
-    }
-    if(input.find_first_of("0123456789.") != std::string::npos) {
-        return ProcessNumberOrDot(input);
-    }
-    return ProcessUnknownOperator();
-}
-
 CalculatorModel::Display CalculatorModel::ProcessUnknownOperator() const {
     Display result{"Unknown operator", ""};
     return result;
