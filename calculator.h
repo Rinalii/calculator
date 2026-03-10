@@ -2,6 +2,7 @@
 #define CALCULATOR_H
 
 #include <QGridLayout>
+#include <QKeyEvent>
 #include <QLabel>
 #include <QPushButton>
 #include <QWidget>
@@ -34,17 +35,12 @@ private:
 signals:
     void buttonPressed(const QString &text); // Сигнал для контроллера
 
+protected:
+    void keyPressEvent(QKeyEvent *event) override;
+
 public slots:
 
-    void onButtonClicked() {
-        // Определяем, какая кнопка была нажата
-        QPushButton *button = qobject_cast<QPushButton*>(sender());
-        if (button) {
-            QString text = button->text();
-            // Излучаем сигнал для контроллера
-            emit buttonPressed(text);
-        }
-    }
+    void onButtonClicked();
 };
 
 #endif // CALCULATOR_H

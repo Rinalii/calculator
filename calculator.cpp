@@ -172,5 +172,67 @@ QPushButton* Calculator::CreateButton(const QString& str) {
     return button;
 }
 
+void Calculator::keyPressEvent(QKeyEvent *event) {
+    QString keyText;
+
+    if (event->key() >= Qt::Key_0 && event->key() <= Qt::Key_9) {
+        keyText = QString::number(event->key() - Qt::Key_0);
+    } else {
+        switch (event->key()) {
+        case Qt::Key_Period:
+            keyText = ".";
+            break;
+        case Qt::Key_Comma:
+            keyText = ".";
+            break;
+        case Qt::Key_Plus:
+            keyText = "+";
+            break;
+        case Qt::Key_Minus:
+            keyText = "-";
+            break;
+        case Qt::Key_Asterisk:
+            keyText = "*";
+            break;
+        case Qt::Key_Slash:
+            keyText = "/";
+            break;
+        case Qt::Key_Enter:
+            keyText = "=";
+            break;
+        case Qt::Key_Return:
+            keyText = "=";
+            break;
+        case Qt::Key_Escape:
+            keyText = "AC";
+            break;
+        case Qt::Key_Percent:
+            keyText = "%";
+            break;
+        default:
+            // Игнорируем остальные клавиши
+            QWidget::keyPressEvent(event);
+            return;
+        }
+    }
+
+    // Если распознали клавишу, эмитируем сигнал как от кнопки
+    if (!keyText.isEmpty()) {
+        emit buttonPressed(keyText);
+    } else {
+        QWidget::keyPressEvent(event);
+    }
+}
+
+void Calculator::onButtonClicked() {
+    // Определяем, какая кнопка была нажата
+    QPushButton *button = qobject_cast<QPushButton*>(sender());
+    if (button) {
+        QString text = button->text();
+        // Излучаем сигнал для контроллера
+        emit buttonPressed(text);
+    }
+}
+
 
 
