@@ -42,7 +42,6 @@ private:
     bool IsActiveNumberEmpty() const;
 
     double ApplyOperator(double left, double right, BOperator op) const;
-    double ApplyOperator(double number, UOperator op) const;
 
     std::optional<BOperator> StringToBOperator(const std::string& input) const;
     std::optional<UOperator> StringToUOperator(const std::string& input) const;

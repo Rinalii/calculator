@@ -116,16 +116,6 @@ double CalculatorModel::ApplyOperator(double left, double right, BOperator op) c
     }
 }
 
-double CalculatorModel::ApplyOperator(double number, UOperator op) const {
-    switch(op) {
-    case UOperator::ChangeSign:
-        return -number;
-    case UOperator::Percent:
-        return 123; ///////////////
-    default: throw std::runtime_error("Unknown operator");
-    }
-}
-
 std::optional<CalculatorModel::BOperator> CalculatorModel::StringToBOperator(const std::string &input) const {
     if(input == "+") return BOperator::Add;
     if(input == "-") return BOperator::Subtract;
@@ -180,21 +170,26 @@ CalculatorModel::Display CalculatorModel::ProcessEquality(const std::string &inp
         return ProcessUnknownOperator();
     }
 
-    //calculate
-    if(operator_ != BOperator::None) {
-        double left = StringToDouble(prev_num_);
-        double right = 0;
-        if(active_num_.empty()) {
-            right = left;
+    try{
+        //calculate
+        if(operator_ != BOperator::None) {
+            double left = StringToDouble(prev_num_);
+            double right = 0;
+            if(active_num_.empty()) {
+                right = left;
+            } else {
+                right = StringToDouble(active_num_);
+            }
+            double res = ApplyOperator(left, right, operator_);
+            result.expression = prev_num_ + BOperatorToString() + active_num_ + input;
+            result.result = DoubleToString(res);
         } else {
-            right = StringToDouble(active_num_);
+            result.expression = active_num_ + input;
+            result.result = active_num_;
         }
-        double res = ApplyOperator(left, right, operator_);
-        result.expression = prev_num_ + BOperatorToString() + active_num_ + input;
-        result.result = DoubleToString(res);
-    } else {
-        result.expression = active_num_ + input;
-        result.result = active_num_;
+    } catch(const std::runtime_error& err) {
+        result.expression = err.what();
+        result.result = "";
     }
 
     Clear();
@@ -237,24 +232,29 @@ CalculatorModel::Display CalculatorModel::ProcessBOperator(const std::string &in
 
     Display result;
 
-    if(IsSignInMiddle()) {
-        //calculate
-        double left = StringToDouble(prev_num_);
-        double right = StringToDouble(active_num_);
-        double res = ApplyOperator(left, right, operator_);
-        result.expression = DoubleToString(res) + input;
-        result.result = DoubleToString(res);
-        Clear();
-        operator_ = *b_op;
-        prev_num_ = DoubleToString(res);
-    } else {
-        if(prev_num_.empty()) {
-            ActiveNumberToPrev(*b_op);
-        } else {
+    try{
+        if(IsSignInMiddle()) {
+            //calculate
+            double left = StringToDouble(prev_num_);
+            double right = StringToDouble(active_num_);
+            double res = ApplyOperator(left, right, operator_);
+            result.expression = DoubleToString(res) + input;
+            result.result = DoubleToString(res);
+            Clear();
             operator_ = *b_op;
+            prev_num_ = DoubleToString(res);
+        } else {
+            if(prev_num_.empty()) {
+                ActiveNumberToPrev(*b_op);
+            } else {
+                operator_ = *b_op;
+            }
+            result.expression = prev_num_ + input;
+            result.result = prev_num_;
         }
-        result.expression = prev_num_ + input;
-        result.result = prev_num_;
+    } catch(const std::runtime_error& err) {
+        result.expression = err.what();
+        result.result = "";
     }
     return result;
 
