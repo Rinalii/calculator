@@ -1,5 +1,5 @@
-#ifndef CALCULATOR_H
-#define CALCULATOR_H
+#ifndef CALCULATORVIEW_H
+#define CALCULATORVIEW_H
 
 #include <QGridLayout>
 #include <QKeyEvent>
@@ -7,11 +7,11 @@
 #include <QPushButton>
 #include <QWidget>
 
-class Calculator: public QWidget
+class CalculatorView: public QWidget
 {
     Q_OBJECT
 public:
-    Calculator();
+    CalculatorView();
     void UpdateDisplay(const QString& text);
     void AddToDisplay(const QString& text);
     void ClearDisplay();
@@ -43,4 +43,4 @@ public slots:
     void onButtonClicked();
 };
 
-#endif // CALCULATOR_H
+#endif // CALCULATORVIEW_H

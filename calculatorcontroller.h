@@ -3,25 +3,19 @@
 
 #include <QObject>
 
-#include "calculator.h"
+#include "calculatorview.h"
 #include "calculatormodel.h"
 
 class CalculatorController : public QObject {
     Q_OBJECT
 public:
-    CalculatorController(CalculatorModel *model, Calculator *view, QObject *parent = nullptr)
+    CalculatorController(CalculatorModel *model, CalculatorView *view, QObject *parent = nullptr)
         : QObject(parent), m_model(model), m_view(view)
     {
-        connect(m_view, &Calculator::buttonPressed,
+        connect(m_view, &CalculatorView::buttonPressed,
                 this, &CalculatorController::handleButtonPress);
     }
 private slots:
-    //void handleButtonPress(const QString &text)
-    //{
-    //    CalculatorModel::Display result = m_model->ProcessInput(text.toStdString());
-    //    m_view->UpdateDisplay(QString::fromStdString(result.expression));
-    //    m_view->UpdateActiveNumber(QString::fromStdString(result.result));
-    //}
 
     void handleButtonPress(const QString &text) {
         CalculatorModel::Display result;
@@ -45,7 +39,7 @@ private slots:
     }
 private:
     CalculatorModel *m_model;
-    Calculator *m_view;
+    CalculatorView *m_view;
 };
 
 #endif // CALCULATORCONTROLLER_H

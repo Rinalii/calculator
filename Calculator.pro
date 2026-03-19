@@ -4,9 +4,9 @@ QT = core \
 CONFIG += c++17
 
 SOURCES += \
-        calculator.cpp \
         calculatorcontroller.cpp \
         calculatormodel.cpp \
+        calculatorview.cpp \
         main.cpp
 
 # Default rules for deployment.
@@ -15,6 +15,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    calculator.h \
     calculatorcontroller.h \
-    calculatormodel.h
+    calculatormodel.h \
+    calculatorview.h

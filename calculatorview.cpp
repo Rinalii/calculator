@@ -1,4 +1,4 @@
-#include "calculator.h"
+#include "calculatorview.h"
 
 #include <QGridLayout>
 #include <QLabel>
@@ -7,36 +7,36 @@
 #define NUMROWS 4
 #define NUMCOLS 4
 
-Calculator::Calculator() {
+CalculatorView::CalculatorView() {
     SetupUI();
     //setAttribute(Qt::WA_DeleteOnClose);
 }
 
-void Calculator::UpdateDisplay(const QString &text) {
+void CalculatorView::UpdateDisplay(const QString &text) {
     display->setText(text);
 }
 
-void Calculator::AddToDisplay(const QString &text) {
+void CalculatorView::AddToDisplay(const QString &text) {
     QString curr_text = display->text();
     UpdateDisplay(curr_text+text);
 }
 
-void Calculator::ClearDisplay() {
+void CalculatorView::ClearDisplay() {
     display->setText("0");
 }
 
-void Calculator::UpdateActiveNumber(const QString& text) {
+void CalculatorView::UpdateActiveNumber(const QString& text) {
     active_number->setText(text);
 }
-void Calculator::AddToActiveNumber(const QString& text) {
+void CalculatorView::AddToActiveNumber(const QString& text) {
     QString curr_text = active_number->text();
     UpdateActiveNumber(curr_text+text);
 }
-void Calculator::ClearActiveNumber() {
+void CalculatorView::ClearActiveNumber() {
     active_number->setText("0");
 }
 
-void Calculator::SetupUI()
+void CalculatorView::SetupUI()
 {
     setStyleSheet(
         "QWidget {"
@@ -82,7 +82,7 @@ void Calculator::SetupUI()
     setLayout(v_layout);
 }
 
-void Calculator::SetupDisplay(QVBoxLayout *v_layout) {
+void CalculatorView::SetupDisplay(QVBoxLayout *v_layout) {
     // Create display
     display = new QLabel("");
     display->setMinimumSize(241, 31);
@@ -102,7 +102,7 @@ void Calculator::SetupDisplay(QVBoxLayout *v_layout) {
     v_layout->addWidget(display, 1);
 }
 
-void Calculator::SetupActiveNumber(QVBoxLayout *v_layout) {
+void CalculatorView::SetupActiveNumber(QVBoxLayout *v_layout) {
     // Create display
     active_number = new QLabel("0");
     active_number->setMinimumSize(241, 61);
@@ -122,7 +122,7 @@ void Calculator::SetupActiveNumber(QVBoxLayout *v_layout) {
     v_layout->addWidget(active_number, 1);
 }
 
-void Calculator::SetupButtons(QGridLayout* layout) {
+void CalculatorView::SetupButtons(QGridLayout* layout) {
     QString buttons_str[NUMROWS][NUMCOLS] = {
         { "AC", "+/-", "%", "/" },
         { "7", "8", "9", "*" },
@@ -145,7 +145,7 @@ void Calculator::SetupButtons(QGridLayout* layout) {
     layout->addWidget(CreateButton(bottomButtons[2]), 6, 3);
 }
 
-QPushButton* Calculator::CreateButton(const QString& str) {
+QPushButton* CalculatorView::CreateButton(const QString& str) {
     QPushButton* button = new QPushButton(str);
     button->setMinimumSize(60, 60);
     button->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -165,14 +165,11 @@ QPushButton* Calculator::CreateButton(const QString& str) {
         );
 
 
-    connect(button, &QPushButton::clicked, this, &Calculator::onButtonClicked);
-    //connect(button, &QPushButton::clicked, this, [this, button]() {
-    //    onButtonClicked(button->text());
-    //});
+    connect(button, &QPushButton::clicked, this, &CalculatorView::onButtonClicked);
     return button;
 }
 
-void Calculator::keyPressEvent(QKeyEvent *event) {
+void CalculatorView::keyPressEvent(QKeyEvent *event) {
     QString keyText;
 
     if (event->key() >= Qt::Key_0 && event->key() <= Qt::Key_9) {
@@ -224,7 +221,7 @@ void Calculator::keyPressEvent(QKeyEvent *event) {
     }
 }
 
-void Calculator::onButtonClicked() {
+void CalculatorView::onButtonClicked() {
     // Определяем, какая кнопка была нажата
     QPushButton *button = qobject_cast<QPushButton*>(sender());
     if (button) {

@@ -1,4 +1,4 @@
-#include "calculator.h"
+#include "calculatorview.h"
 #include "calculatormodel.h"
 #include "calculatorcontroller.h"
 
@@ -7,7 +7,7 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    Calculator calc;
+    CalculatorView calc;
     CalculatorModel model;
     CalculatorController controller(&model, &calc);
     calc.show();
