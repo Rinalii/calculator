@@ -3,7 +3,9 @@
 
 Простое приложение-калькулятор, разработанное на Qt и C++ с использованием архитектурного паттерна Model-View-Controller (MVC).
 
-![](https://github.com/Rinalii/calculator-cpp-qt/tree/main/data/calculator_view.gif)
+<div align="center">
+  <img src="./data/calculator_view.gif">
+</div>
 
 ## ⚙️ Сборка и запуск
 ### Требования
